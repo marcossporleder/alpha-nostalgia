@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.alphanostalgia.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "AlphaFogMixin",
+    "AlphaLightmapMixin",
+    "AlphaSkyMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
