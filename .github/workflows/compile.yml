@@ -15,10 +15,10 @@ jobs:
       - name: Pull Core Libraries
         run: |
           mkdir -p lib
-          # Forces HTTP/1.1 and injects user-agent headers to bypass the bot detection rules
-          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/sponge-mixin.jar https://spongepowered.org
-          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/fabric-loader.jar https://fabricmc.net
-          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/minecraft.jar https://piston-data.mojang.com/v1/objects/e877b6a07acd633fb3bb475002175cec036e7b87/client.jar
+          # Pulls the verified dependency jars straight from Central Maven to avoid download truncation
+          curl -L -o lib/sponge-mixin.jar https://maven.org
+          curl -L -o lib/fabric-loader.jar https://maven.org
+          curl -L -o lib/minecraft.jar https://mojang.com
 
       - name: Compile Mixin Classes
         run: |
