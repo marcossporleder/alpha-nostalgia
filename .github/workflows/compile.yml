@@ -6,16 +6,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java 21
+      - name: Set up Java 25
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'microsoft'
 
-      - name: Pull Core Libraries
+      - name: Pull Global Build Tooling
         run: |
           mkdir -p lib
-          # Pulls the verified dependency jars straight from Central Maven to avoid download truncation
           curl -L -o lib/sponge-mixin.jar https://maven.org
           curl -L -o lib/fabric-loader.jar https://maven.org
           curl -L -o lib/minecraft.jar https://mojang.com
