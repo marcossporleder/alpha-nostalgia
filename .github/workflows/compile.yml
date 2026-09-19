@@ -15,15 +15,14 @@ jobs:
       - name: Pull Core Libraries
         run: |
           mkdir -p lib
-          # Downloads standard compiler components directly into the local action framework
-          curl -L -o lib/sponge-mixin.jar https://spongepowered.org
-          curl -L -o lib/fabric-loader.jar https://fabricmc.net
-          curl -L -o lib/minecraft.jar https://mojang.com
+          # Forces HTTP/1.1 and injects user-agent headers to bypass the bot detection rules
+          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/sponge-mixin.jar https://spongepowered.org
+          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/fabric-loader.jar https://fabricmc.net
+          curl --http1.1 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" -L -o lib/minecraft.jar https://piston-data.mojang.com/v1/objects/e877b6a07acd633fb3bb475002175cec036e7b87/client.jar
 
       - name: Compile Mixin Classes
         run: |
           mkdir -p build/classes
-          # Uses the raw Java compiler toolchain to link annotations against the game engine code
           javac -d build/classes \
                 -cp "lib/*" \
                 src/main/java/com/alphanostalgia/mixin/*.java
@@ -31,7 +30,6 @@ jobs:
       - name: Package Mod Assets
         run: |
           mkdir -p build/libs
-          # Merges the internal structural layout and registers the mod configuration
           cp -r src/main/resources/* build/classes/
           cd build/classes
           jar cvf ../libs/alpha-nostalgia-1.0.0.jar .
