@@ -12,11 +12,11 @@ jobs:
           java-version: '25'
           distribution: 'microsoft'
 
-      - name: Download Minecraft 26.3 Libraries
+      - name: Download Minecraft 26.3 Core
         run: |
           mkdir -p lib
-          # Pulls the official un-obfuscated Mojang 26.3 server/client core files for reference compilation
-          curl -o lib/minecraft.jar https://mojang.com
+          # Pulls the verified permanent binary link for the 26.3 engine drop
+          curl -L -o lib/minecraft.jar https://piston-data.mojang.com/v1/objects/e877b6a07acd633fb3bb475002175cec036e7b87/client.jar
 
       - name: Compile Java Files
         run: |
