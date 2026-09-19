@@ -6,19 +6,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Setup Gradle Build Engine
-        uses: gradle/actions/setup-gradle@v4
+      - name: Pull Core Libraries
+        run: |
+          mkdir -p lib
+          # Downloads standard compiler components directly into the local action framework
+          curl -L -o lib/sponge-mixin.jar https://spongepowered.org
+          curl -L -o lib/fabric-loader.jar https://fabricmc.net
+          curl -L -o lib/minecraft.jar https://mojang.com
 
-      - name: Build Mod Jar
-        run: gradle jar --no-daemon
-        
-      - name: Upload Finished Mod
+      - name: Compile Mixin Classes
+        run: |
+          mkdir -p build/classes
+          # Uses the raw Java compiler toolchain to link annotations against the game engine code
+          javac -d build/classes \
+                -cp "lib/*" \
+                src/main/java/com/alphanostalgia/mixin/*.java
+
+      - name: Package Mod Assets
+        run: |
+          mkdir -p build/libs
+          # Merges the internal structural layout and registers the mod configuration
+          cp -r src/main/resources/* build/classes/
+          cd build/classes
+          jar cvf ../libs/alpha-nostalgia-1.0.0.jar .
+
+      - name: Upload Finished Mod File
         uses: actions/upload-artifact@v4
         with:
           name: AlphaNostalgia-Jar
