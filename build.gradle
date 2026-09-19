@@ -10,12 +10,12 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21) // Uses the stable long-term compiler
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
 repositories {
     mavenCentral()
-    maven { url = "https://fabricmc.net" }
+    maven { url "https://fabricmc.net" }
 }
 
 dependencies {
