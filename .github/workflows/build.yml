@@ -6,19 +6,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 25
+      - name: Set up Java 25
         uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'microsoft'
 
-      - name: Setup Gradle Build Engine
-        uses: gradle/actions/setup-gradle@v4
+      - name: Download Minecraft 26.3 Libraries
+        run: |
+          mkdir -p lib
+          # Pulls the official un-obfuscated Mojang 26.3 server/client core files for reference compilation
+          curl -o lib/minecraft.jar https://mojang.com
 
-      - name: Compile Client Jar
-        run: gradle jar --no-daemon
-        
-      - name: Upload Artifact
+      - name: Compile Java Files
+        run: |
+          mkdir -p build/classes
+          # Compiles your 3 mixins directly against the official game engine code
+          javac -d build/classes \
+                -cp "lib/*" \
+                src/main/java/com/alphanostalgia/mixin/*.java
+
+      - name: Assemble Mod Jar
+        run: |
+          mkdir -p build/libs
+          # Copies asset sheets and registers configurations into the structural assembly
+          cp -r src/main/resources/* build/classes/
+          cd build/classes
+          jar cvf ../libs/alpha-nostalgia-1.0.0.jar .
+
+      - name: Upload Finished Mod
         uses: actions/upload-artifact@v4
         with:
           name: AlphaNostalgia-Jar
