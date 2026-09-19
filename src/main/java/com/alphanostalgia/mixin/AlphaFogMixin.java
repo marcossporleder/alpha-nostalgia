@@ -13,12 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class AlphaFogMixin {
     @Inject(method = "applyFog", at = @At("TAIL"))
     private static void injectAlphaFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci) {
-        // Classic Alpha short-distance rendering simulation
         float fogStart = 4.0f;
         float fogEnd = Math.min(viewDistance, 48.0f); 
 
         RenderSystem.setShaderFogStart(fogStart);
         RenderSystem.setShaderFogEnd(fogEnd);
-        RenderSystem.setShaderFogShape(FogShape.CYLINDER); // Forces classic cylindrical clipping
+        RenderSystem.setShaderFogShape(FogShape.CYLINDER);
     }
 }
