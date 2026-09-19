@@ -7,10 +7,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ClientLevel.Properties.class)
+@Mixin(ClientLevel.class)
 public class AlphaSkyMixin {
     @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void overrideSkyColor(CallbackInfoReturnable<Vec3> cir) {
+        // Enforces the saturated Alpha daylight sky background vector directly
         cir.setReturnValue(new Vec3(0.533, 0.702, 1.0));
     }
 }
