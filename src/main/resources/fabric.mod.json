@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "alphanostalgia",
+  "version": "1.0.0",
+  "name": "Alpha Nostalgia Simulator",
+  "description": "Simulates classic Alpha atmosphere, lighting, and cylindrical fog in Minecraft 26.3.",
+  "authors": [
+    "marcos"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": []
+  },
+  "mixins": [
+    "alphanostalgia.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "26.3",
+    "java": ">=25"
+  }
+}
